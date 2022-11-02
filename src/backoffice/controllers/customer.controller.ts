@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
-import { CreateCustomerContract } from '../contracts/customer.contract';
+import { CreateAddressContract } from '../contracts/customer/create-address.contract';
+import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreateCustomerDTO } from '../dtos/create-customer-dto';
+import { Address } from '../models/address.model';
 import { Customer } from '../models/customer.models';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
@@ -39,6 +41,34 @@ export class CustomerController {
             throw new HttpException(new Result('Não foi possível realizar seu cadastro', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
+
+    @Post('addresses/:document/billing')
+    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
+    async addBillingAddress(@Param('document') document, @Body() model: Address) {
+        try {
+            const res = await this.customerService.addBillingAddress(document, model);
+
+            return new Result('Endereço inserido com sucesso', true, model, null)
+
+        } catch (error) {
+            throw new HttpException(new Result('Não foi adicionar seu endereço', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+    @Post('addresses/:document/shipping')
+    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
+    async addShippingAddress(@Param('document') document, @Body() model: Address) {
+        try {
+            const res = await this.customerService.addShippingAddress(document, model);
+
+            return new Result('Endereço inserido com sucesso', true, model, null)
+
+        } catch (error) {
+            throw new HttpException(new Result('Não foi adicionar seu endereço', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
+    }
+
+
 
     @Put(':document')
     put(@Param('document') document, @Body() body) {
