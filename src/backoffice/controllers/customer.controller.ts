@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors } from
 import { retry } from 'rxjs';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
 import { CreateCustomerContract } from '../contracts/customer.contract';
+import { CreateCustomerDTO } from '../dtos/create-customer-dto';
 import { Customer } from '../models/customer.models';
 import { Result } from '../models/result.model';
 
@@ -19,7 +20,7 @@ export class CustomerController {
 
     @Post()
     @UseInterceptors(new ValidatorInterceptor(new CreateCustomerContract))
-    post(@Body() body: Customer) {
+    post(@Body() body: CreateCustomerDTO) {
         return new Result('Cliente inserido com sucesso', true, body, null)
     }
 
