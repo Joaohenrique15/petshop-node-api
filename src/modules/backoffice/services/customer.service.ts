@@ -1,8 +1,10 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { UpdateCustomerDTO } from "../dtos/customer/update-customer.dto";
 import { QueryDto } from "../dtos/query.dto";
 import { Customer } from "../models/customer.models";
+
 
 @Injectable()
 export class CustomerService {
@@ -25,5 +27,9 @@ export class CustomerService {
     
     async query(model: QueryDto): Promise<Customer[]> {
         return await this.model.find(model.query, model.fields, { skip: model.skip, limit: model.take }).sort(model.sort).exec();
+    }
+
+    async update(document: string, data: UpdateCustomerDTO): Promise<Customer> {
+        return await this.model.findOneAndUpdate({ document }, data);
     }
 }

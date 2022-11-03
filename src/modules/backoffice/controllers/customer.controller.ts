@@ -2,9 +2,11 @@ import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpE
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
+import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
 import { CreatePetContract } from '../contracts/pet/create-pet.contract';
 import { QueryContract } from '../contracts/query.contract';
-import { CreateCustomerDTO } from '../dtos/create-customer.dto';
+import { CreateCustomerDTO } from '../dtos/customer/create-customer.dto';
+import { UpdateCustomerDTO } from '../dtos/customer/update-customer.dto';
 import { QueryDto } from '../dtos/query.dto';
 import { Address } from '../models/address.model';
 import { Customer } from '../models/customer.models';
@@ -69,33 +71,16 @@ export class CustomerController {
         }
     }
 
-    @Post(':document/pets')
-    @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
-    async createPet(@Param('document') document, @Body() model: Pet) {
-        try {
-            const res = await this.petService.createPet(document, model);
-            return new Result('Pet inserido com sucesso', true, model, null)
-
-        } catch (error) {
-            throw new HttpException(new Result('Não foi possível adicionar seu pet', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
-
-    @Put(':document/:id/pets')
-    @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
-    async updatePet(@Param('document') document, @Param('id') id, @Body() model: Pet) {
-        try {
-            const res = await this.petService.updatePet(document, id, model);
-            return new Result('Pet atualizado com sucesso', true, model, null)
-
-        } catch (error) {
-            throw new HttpException(new Result('Não foi possível atualizar seu pet', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
-
     @Put(':document')
-    put(@Param('document') document, @Body() body) {
-        return new Result('Cliente alterado com sucesso', true, body, null)
+    @UseInterceptors(new ValidatorInterceptor(new UpdateCustomerContract))
+    async put(@Param('document') document, @Body() model: UpdateCustomerDTO) {
+        try {
+            await this.customerService.update(document, model);
+            return new Result('Cliente alterado com sucesso', true, null, null)
+
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível realizar a alteração', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     @Delete(':document')
