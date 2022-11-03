@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Address } from "../models/address.model";
 import { Customer } from "../models/customer.models";
+import { Pet } from "../models/pet.model";
 
 @Injectable()
 export class CustomerService {
@@ -31,5 +32,23 @@ export class CustomerService {
                 shippingAddress: data
             }
         }, options);
+    }
+
+    async createPet(document: string, data: Pet) : Promise<Customer> {
+        const options = { upsert: true, new: true };
+        return await this.model.findOneAndUpdate({ document }, {
+            $push: {
+                pets: data
+            }
+
+        }, options);
+    }
+
+    async updatePet(document: string, id: string, data: Pet) : Promise<Customer> {
+        return await this.model.findOneAndUpdate({ document, 'pets._id': id }, {
+            $set: {
+                'pets.$': data
+            }
+        });
     }
 }
