@@ -23,7 +23,7 @@ export class CustomerController {
     async getAll() {
         try {
             const customers = await this.customerService.findAll();
-            return new Result('Todos os clientes', true, customers, null)
+            return new Result(null, true, customers, null)
 
         } catch (error) {
             throw new HttpException(new Result('Não foi possível buscar todos os clientes', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
@@ -31,8 +31,14 @@ export class CustomerController {
     }
 
     @Get(':document')
-    getByDocument(@Param('document') document) {
-        return new Result(null, true, {}, null)
+    async getCustomerDetailByDocument(@Param('document') document) {
+        try {
+            const res = await this.customerService.find(document);
+            return new Result(null, true, res, null)
+
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível buscar o cliente', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     @Post()
