@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/address/create-address.contract';
+import { CreateCreditCardContract } from '../contracts/customer/create-credit-card.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
 import { CreatePetContract } from '../contracts/pet/create-pet.contract';
@@ -9,6 +10,7 @@ import { CreateCustomerDTO } from '../dtos/customer/create-customer.dto';
 import { UpdateCustomerDTO } from '../dtos/customer/update-customer.dto';
 import { QueryDto } from '../dtos/query.dto';
 import { Address } from '../models/address.model';
+import { CreditCard } from '../models/credit-card.model';
 import { Customer } from '../models/customer.models';
 import { Pet } from '../models/pet.model';
 import { Result } from '../models/result.model';
@@ -86,6 +88,17 @@ export class CustomerController {
     @Delete(':document')
     delete(@Param('document') document) {
         return new Result('Cliente removido com sucesso', true, null, null)
+    }
+
+    @Post(':document/credit-cards')
+    @UseInterceptors(new ValidatorInterceptor(new CreateCreditCardContract()))
+    async createBilling(@Param('document') document, @Body() model: CreditCard) {
+        try {
+            await this.customerService.saveOrUpdateCreditCard(document, model);
+            return new Result(null, true, model, null);
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível adicionar seu cartão de crédito', false, null, error), HttpStatus.BAD_REQUEST);
+        }
     }
 }
 

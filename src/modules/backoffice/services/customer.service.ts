@@ -3,6 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { UpdateCustomerDTO } from "../dtos/customer/update-customer.dto";
 import { QueryDto } from "../dtos/query.dto";
+import { CreditCard } from "../models/credit-card.model";
 import { Customer } from "../models/customer.models";
 
 
@@ -31,5 +32,14 @@ export class CustomerService {
 
     async update(document: string, data: UpdateCustomerDTO): Promise<Customer> {
         return await this.model.findOneAndUpdate({ document }, data);
+    }
+    
+    async saveOrUpdateCreditCard(document: string, data: CreditCard): Promise<Customer> {
+        const options = { upsert: true };
+        return await this.model.findOneAndUpdate({ document }, {
+            $set: {
+                card: data,
+            },
+        }, options);
     }
 }
