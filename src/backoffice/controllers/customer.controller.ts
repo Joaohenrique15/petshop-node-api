@@ -3,7 +3,9 @@ import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/customer/create-address.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { CreatePetContract } from '../contracts/customer/create-pet.contract';
-import { CreateCustomerDTO } from '../dtos/create-customer-dto';
+import { QueryContract } from '../contracts/customer/query.contract';
+import { CreateCustomerDTO } from '../dtos/create-customer.dto';
+import { QueryDto } from '../dtos/query.dto';
 import { Address } from '../models/address.model';
 import { Customer } from '../models/customer.models';
 import { Pet } from '../models/pet.model';
@@ -39,6 +41,13 @@ export class CustomerController {
         } catch (error) {
             throw new HttpException(new Result('Não foi possível buscar o cliente', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
         }
+    }
+
+    @Post('query')
+    @UseInterceptors(new ValidatorInterceptor(new QueryContract()))
+    async query(@Body() model: QueryDto) {
+        const customers = await this.customerService.query(model);
+        return new Result(null, true, customers, null);
     }
 
     @Post()
