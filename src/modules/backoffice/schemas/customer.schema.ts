@@ -8,18 +8,22 @@ export const CustomerSchema = new mongoose.Schema({
     document: {
         type: String,
         required: true,
+        index: true,
         trim: true,
-        index: {
-            unique: true,
-        },
+        unique: true
+    },
+    createdAt: {
+        type: String,
+        default: Date.now,
+        required: true,
+        trim: true
     },
     email: {
         type: String,
         required: true,
         trim: true,
-        index: {
-            unique: true,
-        },
+        index: true,
+        unique: true
     },
     pets: [
         {
