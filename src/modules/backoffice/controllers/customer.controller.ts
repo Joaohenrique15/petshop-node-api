@@ -68,33 +68,7 @@ export class CustomerController {
             throw new HttpException(new Result('Não foi possível realizar seu cadastro', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
-
-    @Post('addresses/:document/billing')
-    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
-    async addBillingAddress(@Param('document') document, @Body() model: Address) {
-        try {
-            const res = await this.addressService.addBillingAddress(document, model);
-
-            return new Result('Endereço inserido com sucesso', true, model, null)
-
-        } catch (error) {
-            throw new HttpException(new Result('Não foi possível adicionar seu endereço', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
-
-    @Post('addresses/:document/shipping')
-    @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
-    async addShippingAddress(@Param('document') document, @Body() model: Address) {
-        try {
-            const res = await this.addressService.addShippingAddress(document, model);
-
-            return new Result('Endereço inserido com sucesso', true, model, null)
-
-        } catch (error) {
-            throw new HttpException(new Result('Não foi possível adicionar seu endereço', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
-        }
-    }
-
+    
     @Post(':document/pets')
     @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
     async createPet(@Param('document') document, @Body() model: Pet) {
