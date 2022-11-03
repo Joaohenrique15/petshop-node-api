@@ -20,6 +20,10 @@ export class CustomerService {
         return await this.model.find({}, 'name email document').sort('name').exec();
     }
 
+    async find(document: string): Promise<Customer[]> {
+        return await this.model.find({ document }).populate('user', 'username').exec();
+    }
+
     async addBillingAddress(document: string, data: Address): Promise<Customer> {
         const options = { upsert: true };
         return await this.model.findOneAndUpdate({ document }, {
