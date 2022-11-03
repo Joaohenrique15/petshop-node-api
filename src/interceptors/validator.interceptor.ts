@@ -1,7 +1,8 @@
-import { BadGatewayException, BadRequestException, CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from "@nestjs/common";
-import { catchError, map, Observable, tap, throwError } from "rxjs";
-import { Contract } from "src/backoffice/contracts/contract";
-import { Result } from "src/backoffice/models/result.model";
+import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from "@nestjs/common";
+import { Observable } from "rxjs";
+import { Contract } from "src/modules/backoffice/contracts/contract";
+import { Result } from "src/modules/backoffice/models/result.model";
+
 
 @Injectable()
 export class ValidatorInterceptor implements NestInterceptor{

@@ -1,5 +1,5 @@
 import { Contract } from '../contract';
-import { QueryDto } from 'src/backoffice/dtos/query.dto';
+import { QueryDto } from '../../dtos/query.dto';
 import { Injectable } from '@nestjs/common';
 import { Flunt } from 'src/utils/flunt';
 
