@@ -20,8 +20,14 @@ export class CustomerController {
     }
 
     @Get()
-    get() {
-        return new Result(null, true, [], null)
+    async getAll() {
+        try {
+            const customers = await this.customerService.findAll();
+            return new Result('Todos os clientes', true, customers, null)
+
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível buscar todos os clientes', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
+        }
     }
 
     @Get(':document')
