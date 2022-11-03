@@ -1,6 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { AddressType } from "../enums/address-type.enum";
 import { Address } from "../models/address.model";
 import { Customer } from "../models/customer.models";
 
@@ -10,21 +11,20 @@ export class AddressService {
 
     }
 
-    async addBillingAddress(document: string, data: Address): Promise<Customer> {
-        const options = { upsert: true };
-        return await this.model.findOneAndUpdate({ document }, {
-            $set: {
-                billingAddress: data
-            }
-        }, options);
-    }
-
-    async addShippingAddress(document: string, data: Address): Promise<Customer> {
-        const options = { upsert: true };
-        return await this.model.findOneAndUpdate({ document }, {
-            $set: {
-                shippingAddress: data
-            }
-        }, options);
+    async addAddress(document: string, data: Address, type: AddressType): Promise<Customer> {
+        const options = { upsert: true }; // new: true, setDefaultsOnInsert: true };
+        if (type == AddressType.Billing) {
+            return await this.model.findOneAndUpdate({ document }, {
+                $set: {
+                    billingAddress: data,
+                },
+            }, options);
+        } else {
+            return await this.model.findOneAndUpdate({ document }, {
+                $set: {
+                    shippingAddress: data,
+                },
+            }, options);
+        }
     }
 }
