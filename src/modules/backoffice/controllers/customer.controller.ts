@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
 import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
-import { CreateAddressContract } from '../contracts/customer/create-address.contract';
+import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
-import { CreatePetContract } from '../contracts/customer/create-pet.contract';
-import { QueryContract } from '../contracts/customer/query.contract';
+import { CreatePetContract } from '../contracts/pet/create-pet.contract';
+import { QueryContract } from '../contracts/query.contract';
 import { CreateCustomerDTO } from '../dtos/create-customer.dto';
 import { QueryDto } from '../dtos/query.dto';
 import { Address } from '../models/address.model';
@@ -68,7 +68,7 @@ export class CustomerController {
             throw new HttpException(new Result('Não foi possível realizar seu cadastro', false, null, error), HttpStatus.INTERNAL_SERVER_ERROR)
         }
     }
-    
+
     @Post(':document/pets')
     @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
     async createPet(@Param('document') document, @Body() model: Pet) {
