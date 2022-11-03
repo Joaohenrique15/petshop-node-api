@@ -15,6 +15,10 @@ export class CustomerService {
         const customer = new this.model(data);
         return await customer.save()
     }
+    
+    async findAll(): Promise<Customer[]> {
+        return await this.model.find({}, 'name email document').sort('name').exec();
+    }
 
     async addBillingAddress(document: string, data: Address): Promise<Customer> {
         const options = { upsert: true };
