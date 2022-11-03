@@ -12,13 +12,15 @@ import { Pet } from '../models/pet.model';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
+import { AddressService } from '../services/address.service';
 import { CustomerService } from '../services/customer.service';
 
 @Controller('v1/customers')
 export class CustomerController {
     constructor(
         private readonly accountService: AccountService,
-        private readonly customerService: CustomerService) {
+        private readonly customerService: CustomerService,
+        private readonly addressService: AddressService) {
     }
 
     @Get()
@@ -69,7 +71,7 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
     async addBillingAddress(@Param('document') document, @Body() model: Address) {
         try {
-            const res = await this.customerService.addBillingAddress(document, model);
+            const res = await this.addressService.addBillingAddress(document, model);
 
             return new Result('Endereço inserido com sucesso', true, model, null)
 
@@ -82,7 +84,7 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreateAddressContract))
     async addShippingAddress(@Param('document') document, @Body() model: Address) {
         try {
-            const res = await this.customerService.addShippingAddress(document, model);
+            const res = await this.addressService.addShippingAddress(document, model);
 
             return new Result('Endereço inserido com sucesso', true, model, null)
 
