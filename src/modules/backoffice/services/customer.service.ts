@@ -27,22 +27,4 @@ export class CustomerService {
     async query(model: QueryDto): Promise<Customer[]> {
         return await this.model.find(model.query, model.fields, { skip: model.skip, limit: model.take }).sort(model.sort).exec();
     }
-
-    async createPet(document: string, data: Pet) : Promise<Customer> {
-        const options = { upsert: true, new: true };
-        return await this.model.findOneAndUpdate({ document }, {
-            $push: {
-                pets: data
-            }
-
-        }, options);
-    }
-
-    async updatePet(document: string, id: string, data: Pet) : Promise<Customer> {
-        return await this.model.findOneAndUpdate({ document, 'pets._id': id }, {
-            $set: {
-                'pets.$': data
-            }
-        });
-    }
 }

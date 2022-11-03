@@ -14,13 +14,15 @@ import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
 import { AddressService } from '../services/address.service';
 import { CustomerService } from '../services/customer.service';
+import { PetService } from '../services/pet.service';
 
 @Controller('v1/customers')
 export class CustomerController {
     constructor(
         private readonly accountService: AccountService,
         private readonly customerService: CustomerService,
-        private readonly addressService: AddressService) {
+        private readonly addressService: AddressService,
+        private readonly petService: PetService) {
     }
 
     @Get()
@@ -97,7 +99,7 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
     async createPet(@Param('document') document, @Body() model: Pet) {
         try {
-            const res = await this.customerService.createPet(document, model);
+            const res = await this.petService.createPet(document, model);
             return new Result('Pet inserido com sucesso', true, model, null)
 
         } catch (error) {
@@ -109,7 +111,7 @@ export class CustomerController {
     @UseInterceptors(new ValidatorInterceptor(new CreatePetContract))
     async updatePet(@Param('document') document, @Param('id') id, @Body() model: Pet) {
         try {
-            const res = await this.customerService.updatePet(document, id, model);
+            const res = await this.petService.updatePet(document, id, model);
             return new Result('Pet atualizado com sucesso', true, model, null)
 
         } catch (error) {
