@@ -66,6 +66,7 @@ export class AccountController {
     }
 
     @Post('refresh')
+    @UseGuards(JwtAuthGuard)
     async refreshToken(@Req() request): Promise<any> {
         const token = await this.authService.createToken(request.user.document, request.user.email, request.user.roles);
         return new Result(null, true, token, null);
