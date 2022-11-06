@@ -29,7 +29,7 @@ export class AccountService {
             .exec();
     }
     
-    async authenticate(username: string): Promise<Customer> {
+    async authenticate(username: string, password: string): Promise<Customer> {
         return await this.customerModel
             .findOne({ document: username })
             .populate('user')
