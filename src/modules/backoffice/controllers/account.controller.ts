@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { ApiTags } from "@nestjs/swagger";
 import { Guid } from "guid-typescript";
 import { JwtAuthGuard } from "src/shared/guards/auth.guards";
 import { RoleInterceptor } from "src/shared/interceptors/role.interceptor";
@@ -10,6 +11,7 @@ import { Result } from "../models/result.model";
 import { AccountService } from "../services/account.service";
 
 @Controller('v1/accounts')
+@ApiTags('Account')
 export class AccountController {
     constructor(
         private authService: AuthService,

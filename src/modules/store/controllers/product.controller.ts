@@ -3,8 +3,10 @@ import { ProductService } from '../services/product.service';
 
 import { Product } from '../entities/product.entity';
 import { Result } from 'src/modules/backoffice/models/result.model';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('v1/products')
+@ApiTags('Products')
 export class ProductController {
     constructor(private readonly service: ProductService) { }
 

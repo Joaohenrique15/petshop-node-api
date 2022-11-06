@@ -1,19 +1,16 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Md5 } from 'md5-typescript';
 import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
-import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { CreateCreditCardContract } from '../contracts/customer/create-credit-card.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';
 import { UpdateCustomerContract } from '../contracts/customer/update-customer.contract';
-import { CreatePetContract } from '../contracts/pet/create-pet.contract';
 import { QueryContract } from '../contracts/query.contract';
 import { CreateCustomerDTO } from '../dtos/customer/create-customer.dto';
 import { UpdateCustomerDTO } from '../dtos/customer/update-customer.dto';
 import { QueryDto } from '../dtos/query.dto';
-import { Address } from '../models/address.model';
 import { CreditCard } from '../models/credit-card.model';
 import { Customer } from '../models/customer.models';
-import { Pet } from '../models/pet.model';
 import { Result } from '../models/result.model';
 import { User } from '../models/user.model';
 import { AccountService } from '../services/account.service';
@@ -22,6 +19,7 @@ import { CustomerService } from '../services/customer.service';
 import { PetService } from '../services/pet.service';
 
 @Controller('v1/customers')
+@ApiTags('Customers')
 export class CustomerController {
     constructor(
         private readonly accountService: AccountService,

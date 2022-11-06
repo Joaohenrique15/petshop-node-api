@@ -1,4 +1,5 @@
 import { Controller, Post, Put, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
 import { CreatePetContract } from '../contracts/pet/create-pet.contract';
 import { Pet } from '../models/pet.model';
@@ -6,6 +7,7 @@ import { Result } from '../models/result.model';
 import { PetService } from '../services/pet.service';
 
 @Controller('v1/pets')
+@ApiTags('Pets')
 export class PetController {
     constructor(private readonly petService: PetService) {
     }

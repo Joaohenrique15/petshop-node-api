@@ -1,4 +1,5 @@
 import { Controller, Post, Param, Body, UseInterceptors, HttpException, HttpStatus, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { AddressType } from '../enums/address-type.enum';
@@ -7,6 +8,7 @@ import { Result } from '../models/result.model';
 import { AddressService } from '../services/address.service';
 
 @Controller('v1/addresses')
+@ApiTags('Addresses')
 export class AddressController {
     constructor(private readonly addressService: AddressService) {
     }

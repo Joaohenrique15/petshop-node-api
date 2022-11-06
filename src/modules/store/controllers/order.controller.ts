@@ -6,8 +6,10 @@ import { ProductService } from '../services/product.service';
 import { OrderItemService } from '../services/order-item.service';
 import { Result } from 'src/modules/backoffice/models/result.model';
 import { OrderItemDto } from '../dtos/order-item-dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('v1/orders')
+@ApiTags('Orders')
 export class OrderController {
     constructor(
         private readonly orderService: OrderService,
