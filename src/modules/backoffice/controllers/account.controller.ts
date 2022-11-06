@@ -4,6 +4,7 @@ import { JwtAuthGuard } from "src/shared/guards/auth.guards";
 import { RoleInterceptor } from "src/shared/interceptors/role.interceptor";
 import { AuthService } from "src/shared/services/auth.service";
 import { AuthenticateDto } from "../dtos/account/authenticate.dto";
+import { ChangePasswordDto } from "../dtos/account/change-password.dto";
 import { ResetPasswordDto } from "../dtos/account/reset-password.dto";
 import { Result } from "../models/result.model";
 import { AccountService } from "../services/account.service";
@@ -51,5 +52,18 @@ export class AccountController {
             throw new HttpException(new Result('Não foi possível restaurar sua senha', false, null, error), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @Post('change-password')
+    @UseGuards(JwtAuthGuard)
+    async changePassword(@Req() request, @Body() model: ChangePasswordDto): Promise<any> {
+        try {
+            // TODO: Encriptar senha
+            await this.accountService.update(request.user.document, { password: model.newPassword });
+            return new Result('Sua senha foi alterada com sucesso!', true, null, null);
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível alterar sua senha', false, null, error), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }
