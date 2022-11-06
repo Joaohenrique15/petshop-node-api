@@ -1,8 +1,10 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Guid } from "guid-typescript";
 import { JwtAuthGuard } from "src/shared/guards/auth.guards";
 import { RoleInterceptor } from "src/shared/interceptors/role.interceptor";
 import { AuthService } from "src/shared/services/auth.service";
 import { AuthenticateDto } from "../dtos/account/authenticate.dto";
+import { ResetPasswordDto } from "../dtos/account/reset-password.dto";
 import { Result } from "../models/result.model";
 import { AccountService } from "../services/account.service";
 
@@ -29,13 +31,25 @@ export class AccountController {
 
         if (!customer)
             throw new HttpException(new Result('Usuário ou senha inválidos', false, null, null), HttpStatus.UNAUTHORIZED);
-            
+
         if (!customer.user.active)
             throw new HttpException(new Result('Usuário inativo', false, null, null), HttpStatus.UNAUTHORIZED);
 
         // Gera o token
         const token = await this.authService.createToken(customer.document, customer.email, customer.user.roles);
         return new Result(null, true, token, null);
+    }
+
+    @Post('reset-password')
+    async resetPassword(@Body() model: ResetPasswordDto): Promise<any> {
+        try {
+            const password = Guid.create().toString().substring(0, 8).replace('-', '');
+            await this.accountService.update(model.document, { password: password });
+            // TODO: Enviar E-mail com a senha
+            return new Result('Uma nova senha foi enviada para seu E-mail', true, null, null);
+        } catch (error) {
+            throw new HttpException(new Result('Não foi possível restaurar sua senha', false, null, error), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
