@@ -1,10 +1,11 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { get } from "http";
+import { AuthService } from "src/shared/services/auth.service";
 
 @Controller('v1/accounts')
 export class AccountController {
-    constructor() {
+    constructor(private authService: AuthService) {
 
     }
 
@@ -12,5 +13,10 @@ export class AccountController {
     @UseGuards(AuthGuard())
     findAll() {
         return [];
+    }
+
+    @Post('getToken')
+    async createToken(): Promise<any> {
+        return await this.authService.createToken();
     }
 }
