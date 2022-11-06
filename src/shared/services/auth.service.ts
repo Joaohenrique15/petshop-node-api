@@ -14,7 +14,7 @@ export class AuthService {
         const user: JwtPayload = {
             document: '12345678911',
             email: 'teste@email.com',
-            roles: []
+            roles: ['admin']
         };
         const accessToken = this.jwtService.sign(user);
         return {
