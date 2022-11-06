@@ -1,6 +1,6 @@
 
 export interface JwtPayload {
-    username: string;
+    document: string;
     email: string;
     roles: string[];
 }

@@ -13,9 +13,15 @@ export class AccountService {
         return await user.save()
     }
 
-    async findByUsername(username): Promise<User> {
+    async findByUsername(username: string): Promise<User> {
         return await this.userModel
             .findOne({ username: username })
+            .exec();
+    }
+
+    async findByDocument(document: string): Promise<User> {
+        return await this.userModel
+            .findOne({ document: document })
             .exec();
     }
 }
