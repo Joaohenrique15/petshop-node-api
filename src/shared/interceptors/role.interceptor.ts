@@ -22,7 +22,7 @@ export class RoleInterceptor implements NestInterceptor {
 
         if (!hasRole) {
             throw new HttpException(
-                new Result('Acesso não autorizado', false, null, null), HttpStatus.UNAUTHORIZED);
+                new Result('Acesso não autorizado', false, null, null), HttpStatus.FORBIDDEN);
         }
 
         return next.handle();
