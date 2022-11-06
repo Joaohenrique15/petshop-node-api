@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Put, Delete, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
-import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
+import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { CreateCreditCardContract } from '../contracts/customer/create-credit-card.contract';
 import { CreateCustomerContract } from '../contracts/customer/create-customer.contract';

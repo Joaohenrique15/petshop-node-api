@@ -1,5 +1,5 @@
 import { Controller, Post, Put, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
-import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
+import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
 import { CreatePetContract } from '../contracts/pet/create-pet.contract';
 import { Pet } from '../models/pet.model';
 import { Result } from '../models/result.model';

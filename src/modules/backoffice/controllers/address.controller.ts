@@ -1,5 +1,5 @@
 import { Controller, Post, Param, Body, UseInterceptors, HttpException, HttpStatus } from '@nestjs/common';
-import { ValidatorInterceptor } from 'src/interceptors/validator.interceptor';
+import { ValidatorInterceptor } from 'src/modules/backoffice/interceptors/validator.interceptor';
 import { CreateAddressContract } from '../contracts/address/create-address.contract';
 import { AddressType } from '../enums/address-type.enum';
 import { Address } from '../models/address.model';
