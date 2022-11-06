@@ -5,12 +5,18 @@ import { User } from '../models/user.model';
 
 @Injectable()
 export class AccountService {
-    constructor(@InjectModel('User') private readonly model: Model<User>) {      
+    constructor(@InjectModel('User') private readonly userModel: Model<User>) {      
     }
 
     async create(data: User) : Promise<User> {
-        const user = new this.model(data);
+        const user = new this.userModel(data);
         return await user.save()
+    }
+
+    async findByUsername(username): Promise<User> {
+        return await this.userModel
+            .findOne({ username: username })
+            .exec();
     }
 }
 
