@@ -6,11 +6,9 @@ import { BookRoomCommand } from "../commands/book-room.command"
 export class RoomBookService {
     constructor(private readonly commandBus: CommandBus) { }
 
-    async Book(customerId: string, roomId: string) {
+    async Book(command: BookRoomCommand) {
         console.log('RoomBookService:Book - Executando o serviço...')
 
-        return await this.commandBus.execute(
-            new BookRoomCommand(customerId, roomId)
-        )
+        return await this.commandBus.execute(command)
     }
 }
