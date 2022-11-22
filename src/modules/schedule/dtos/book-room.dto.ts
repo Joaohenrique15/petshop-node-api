@@ -1,7 +1,7 @@
 
-export class BookRoomDTO {
+export class BookRoomDto {
     constructor(
-        private readonly roomId: string,
-        private readonly date: Date
+      public readonly roomId: string,
+      public readonly date: Date,
     ) { }
-}
+  }
